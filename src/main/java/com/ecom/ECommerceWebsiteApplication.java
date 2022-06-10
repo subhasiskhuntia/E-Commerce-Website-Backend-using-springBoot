@@ -58,16 +58,16 @@ public class ECommerceWebsiteApplication implements CommandLineRunner{
 //		discount2.getProducts().forEach((product)->System.out.println(product.getName()));;
 //		System.out.println(String.valueOf(brand2.getProducts().get(0).getImages()));
 //		System.out.println(brand2);
-		System.out.println(productrepo.findAll().size());
+//		System.out.println(productrepo.findAll().size());
 //		List<Product> products= productrepo.getProduct("%%");
 //		System.out.println(products.size());
 //		System.out.println(productrepo.getDistinct().length);
 //		System.out.println(productrepo.getProduct(new String[] {"H&M"}));
-		String[] brands= {"%%"};
-		System.out.println(productrepo.getProduct(brands).size());
+//		String[] brands= {"%%"};
+//		System.out.println(productrepo.getProduct(brands).size());
 //		System.out.println(String.valueOf(catrepo.getDistinctCategoryType()));
 //		System.out.println(String.valueOf(brandrepo.distinctBrand()));
-		System.out.println(productrepo.getDistinct());
+//		System.out.println(productrepo.getDistinct());
 //		productrepo.getFilteredProduct("%%",new String[]{"H&M"},new String[]{"Shirt","T-Shirt"}, new String[] {"RED","WHITE"},2000,500,new String[] {"man","woman","baby","kid"},"desc").forEach(a->System.out.println(a));
 //		productrepo.pricedProduct().forEach(a->System.out.println(a));
 	}
