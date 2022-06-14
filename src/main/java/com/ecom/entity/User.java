@@ -30,7 +30,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String username;
-	@JsonIgnore
+//	@JsonIgnore
 	private String password;
 	private String first_name;
 	private String last_name;

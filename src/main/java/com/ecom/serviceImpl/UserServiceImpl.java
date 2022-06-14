@@ -21,10 +21,13 @@ public class UserServiceImpl {
 
 	public String signUp(User user) {
 		if (userdao.existByUsername(user.getUsername()) != null) {
+			System.out.println("User Already Exist");
 			return "User Already Exist";
 		}
+		ShoppingCart cart=new ShoppingCart();
+		user.setCart(cart);
 		user.getCart().setUser(user);
-		userdao.save(user);
+		userdao.saveAndFlush(user);
 		return "Account Created Successfully";
 	}
 
@@ -41,8 +44,8 @@ public class UserServiceImpl {
 
 	public String addToCart(ShoppingCart cart) {
 //		System.out.println(cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct()));
-		if (cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct()).size() !=0 ) {
-			System.out.println(cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct()));
+		if (cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct(),cart.getUserId()).size() !=0 ) {
+			System.out.println(cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct(),cart.getUserId()));
 			return "Already in your Cart";
 		}
 		User user = userdao.findById(cart.getUserId()).get();

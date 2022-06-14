@@ -10,7 +10,7 @@ import com.ecom.entity.CartItem;
 import com.ecom.entity.Product;
 
 public interface CartItemDao extends JpaRepository<CartItem,Long>{
-	@Query("select item.cartProduct from CartItem item where item.cartProduct=:product")
-	public List<Product> getProducts(@RequestParam("product") Product product);
+	@Query("select item.cartProduct from CartItem item where item.cartProduct=:product and item.belongsToThisCart.user.id=:userId")
+	public List<Product> getProducts(@RequestParam("product") Product product,@RequestParam("userId") long userId);
 	
 }

@@ -37,7 +37,7 @@ public class UserController {
 	}
 	@PostMapping(value = "showCart")
 	public ShoppingCart showCart(@RequestBody ShoppingCart cart) {
-		System.out.println(userservice.showCart(cart.getUserId()).getCartItems());
+//		System.out.println(userservice.showCart(cart.getUserId()).getCartItems());
 		return userservice.showCart(cart.getUserId());
 	}
 }

@@ -31,8 +31,8 @@ public class ShoppingCart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@OneToOne(mappedBy = "cart")
 	@JsonIgnore
+	@OneToOne
 	private User user;
 	@CreationTimestamp
 	private LocalDateTime createdAt;
