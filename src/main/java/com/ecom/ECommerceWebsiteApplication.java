@@ -1,6 +1,7 @@
 package com.ecom;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.ecom.dao.ProductBrandRepo;
 import com.ecom.dao.ProductCategoryRepo;
@@ -76,6 +82,15 @@ public class ECommerceWebsiteApplication implements CommandLineRunner{
 //		System.out.println(productrepo.getDistinct());
 //		productrepo.getFilteredProduct("%%",new String[]{"H&M"},new String[]{"Shirt","T-Shirt"}, new String[] {"RED","WHITE"},2000,500,new String[] {"man","woman","baby","kid"},"desc").forEach(a->System.out.println(a));
 //		productrepo.pricedProduct().forEach(a->System.out.println(a));
+	}
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("*").allowedHeaders("*").allowedOrigins("*").allowedMethods("*").allowCredentials(true);
+			}
+		};
 	}
 
 }

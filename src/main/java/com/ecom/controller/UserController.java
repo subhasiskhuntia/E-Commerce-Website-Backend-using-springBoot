@@ -2,6 +2,7 @@ package com.ecom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,21 +15,11 @@ import com.ecom.serviceImpl.UserServiceImpl;
 
 @RestController
 @RequestMapping(value = "api/user")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*",maxAge =3600 )
 public class UserController {
 	@Autowired
 	UserServiceImpl userservice;
 	
-	@PostMapping(value = "signup")
-	private String signingUp(@RequestBody User user) {
-		System.out.println(user);
-		return userservice.signUp(user);
-	}
-	@PostMapping(value = "login")
-	private String login(@RequestBody Login login) {
-		System.out.println(login);
-		return userservice.checkUserNameAndPassword(login.getUsername(), login.getPassword());
-	}
 	@PostMapping(value = "addToCart")
 	private String addToCart(@RequestBody ShoppingCart cart) {
 		System.out.println(cart);
@@ -38,6 +29,8 @@ public class UserController {
 	@PostMapping(value = "showCart")
 	public ShoppingCart showCart(@RequestBody ShoppingCart cart) {
 //		System.out.println(userservice.showCart(cart.getUserId()).getCartItems());
-		return userservice.showCart(cart.getUserId());
+		System.out.println("Inside showcart");
+//		return new ShoppingCart();
+		return userservice.showCart(cart.getUserName());
 	}
 }

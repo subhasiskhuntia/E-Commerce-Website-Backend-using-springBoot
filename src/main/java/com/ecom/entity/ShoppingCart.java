@@ -43,6 +43,8 @@ public class ShoppingCart {
 	private List<CartItem> cartItems;
 	@Transient
 	private long userId;
+	@Transient
+	private String userName;
 	
 	
 }

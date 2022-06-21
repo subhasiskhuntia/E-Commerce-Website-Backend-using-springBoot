@@ -44,11 +44,11 @@ public class UserServiceImpl {
 
 	public String addToCart(ShoppingCart cart) {
 //		System.out.println(cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct()));
-		if (cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct(),cart.getUserId()).size() !=0 ) {
-			System.out.println(cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct(),cart.getUserId()));
+		if (cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct(),cart.getUserName()).size() !=0 ) {
+			System.out.println(cartitemdao.getProducts(cart.getCartItems().get(0).getCartProduct(),cart.getUserName()));
 			return "Already in your Cart";
 		}
-		User user = userdao.findById(cart.getUserId()).get();
+		User user = userdao.findByUsername(cart.getUserName());
 		user.getCart().setCartItems(cart.getCartItems());
 		user.getCart().setUser(user);
 		user.getCart().getCartItems().forEach(theCart->theCart.setBelongsToThisCart(user.getCart()));
@@ -56,10 +56,10 @@ public class UserServiceImpl {
 		
 		return "Added to Cart";
 	}
-	public ShoppingCart showCart(long id) {
-		Optional<User> user=userdao.findById(id);
-		if(user.isPresent()) {
-			return user.get().getCart();
+	public ShoppingCart showCart(String userName) {
+		User user=userdao.findUserByUserUsername(userName);
+		if(user!=null) {
+			return user.getCart();
 		}
 		return null;
 	}
