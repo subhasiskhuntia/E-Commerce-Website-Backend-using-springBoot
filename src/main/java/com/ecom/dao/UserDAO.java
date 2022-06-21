@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ecom.bean.Login;
 import com.ecom.entity.User;
 
 public interface UserDAO extends JpaRepository<User, Long> {
@@ -14,4 +15,5 @@ public interface UserDAO extends JpaRepository<User, Long> {
 	public User findUserByUserNameAndPassword(@RequestParam("username") String username,@RequestParam("password") String password);
 	@Query("select user from User user where user.username=:username")
 	public User findUserByUserUsername(@RequestParam("username") String username);
+	User findByUsername(String username);
 }

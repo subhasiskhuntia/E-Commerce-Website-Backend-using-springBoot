@@ -42,4 +42,5 @@ public class User {
 	private LocalDateTime modifiedAt;
 	@OneToOne(cascade = CascadeType.ALL)
 	private ShoppingCart cart;
+	private String role;
 }
