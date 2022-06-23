@@ -1,6 +1,7 @@
 package com.ecom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.bean.Login;
+import com.ecom.entity.CartItem;
 import com.ecom.entity.ShoppingCart;
 import com.ecom.entity.User;
 import com.ecom.serviceImpl.UserServiceImpl;
@@ -23,14 +25,26 @@ public class UserController {
 	@PostMapping(value = "addToCart")
 	private String addToCart(@RequestBody ShoppingCart cart) {
 		System.out.println(cart);
-		System.out.println(cart.getUserId());
 		return userservice.addToCart(cart);
 	}
+	
 	@PostMapping(value = "showCart")
 	public ShoppingCart showCart(@RequestBody ShoppingCart cart) {
 //		System.out.println(userservice.showCart(cart.getUserId()).getCartItems());
-		System.out.println("Inside showcart");
+//		System.out.println("Inside showcart");
 //		return new ShoppingCart();
 		return userservice.showCart(cart.getUserName());
+	}
+	@PostMapping(value = "updateCart")
+	public ShoppingCart updateCart(@RequestBody ShoppingCart cart) {
+		return this.userservice.updateCart(cart);
+	}
+	@PostMapping(value = "/deleteCartItem",consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ShoppingCart deleteCartItem(@RequestBody ShoppingCart cart) {
+		System.out.println("inside delete cart controller");
+//		System.out.println(userservice.deleteCartItem(cart.getCartItems().get(0)));
+		System.out.println(cart);
+		return userservice.deleteCartItem(cart);
+		
 	}
 }

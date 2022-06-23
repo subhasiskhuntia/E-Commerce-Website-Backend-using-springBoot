@@ -58,10 +58,13 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 				"/hellouser",
 				"sayHello",
 				"/api/user/showCart",
-				"/api/user/addToCart"
+				"/api/user/addToCart",
+				"/api/user/updateCart",
+				"/api/user/deleteCartItem"
 				).hasAnyRole("USER","ADMIN")
 		.antMatchers("/authenticate",
 					"/register",
+					"/refreshtoken",
 					"/api/banner/showBanner",
 					"/products/storeProduct",
 					"/products/getFilterdProduct",

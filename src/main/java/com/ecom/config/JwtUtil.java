@@ -29,7 +29,8 @@ public class JwtUtil {
 
 	private String secret;
 	private int jwtExpirationInMs;
-
+	private int refreshExpirationDateInMs;
+	
 	@Value("${jwt.secret}")
 	public void setSecret(String secret) {
 		this.secret = secret;
@@ -39,7 +40,10 @@ public class JwtUtil {
 	public void setJwtExpirationInMs(int jwtExpirationInMs) {
 		this.jwtExpirationInMs = jwtExpirationInMs;
 	}
-
+	@Value("${jwt.refreshExpirationDateInMs}")
+	public void setRefreshExpirationDateInMs(int refreshExpirationDateInMs) {
+		this.refreshExpirationDateInMs = refreshExpirationDateInMs;
+	}
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 
@@ -94,6 +98,13 @@ public class JwtUtil {
 			roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		return roles;
+
+	}
+	public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
+
+		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + refreshExpirationDateInMs))
+				.signWith(SignatureAlgorithm.HS512, secret).compact();
 
 	}
 

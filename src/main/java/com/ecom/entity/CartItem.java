@@ -20,12 +20,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = {"belongsToThisCart"})
 public class CartItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +42,5 @@ public class CartItem {
 	private ShoppingCart belongsToThisCart;
 	@ManyToOne
 	private Product cartProduct;
-	@Override
-	public String toString() {
-		return "CartItem [id=" + id + ", quantity=" + quantity + ", createdAt=" + createdAt + ", modifiedAt="
-				+ modifiedAt + "]";
-	}
 	
 }
