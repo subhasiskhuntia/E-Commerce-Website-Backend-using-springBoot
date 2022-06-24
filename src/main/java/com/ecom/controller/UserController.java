@@ -1,5 +1,8 @@
 package com.ecom.controller;
 
+import java.util.Map;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +17,9 @@ import com.ecom.entity.CartItem;
 import com.ecom.entity.ShoppingCart;
 import com.ecom.entity.User;
 import com.ecom.serviceImpl.UserServiceImpl;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 
 @RestController
 @RequestMapping(value = "api/user")
@@ -46,5 +52,19 @@ public class UserController {
 		System.out.println(cart);
 		return userservice.deleteCartItem(cart);
 		
+	}
+	
+	@PostMapping(value = "/buyProduct")
+	public String buyProduct(@RequestBody Map<String, Object> data) throws Exception {
+		System.out.println(data);
+		int amount=Integer.parseInt(data.get("amount").toString());
+		RazorpayClient razorpayClient = new RazorpayClient("rzp_test_57H5LdGcUCbfNi", "1YAHwxJD9blFaaLBAr0h9az7");
+		JSONObject options = new JSONObject();
+		options.put("amount", amount*100);
+		options.put("currency", "INR");
+		options.put("receipt", "txn_123456");
+		Order order = razorpayClient.orders.create(options);
+		System.out.println(order);
+		return order.toString();
 	}
 }
