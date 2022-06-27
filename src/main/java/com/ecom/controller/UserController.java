@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.bean.Login;
 import com.ecom.entity.CartItem;
+import com.ecom.entity.OrderDetails;
 import com.ecom.entity.ShoppingCart;
 import com.ecom.entity.User;
 import com.ecom.serviceImpl.UserServiceImpl;
@@ -56,7 +57,7 @@ public class UserController {
 	
 	@PostMapping(value = "/buyProduct")
 	public String buyProduct(@RequestBody Map<String, Object> data) throws Exception {
-		System.out.println(data);
+//		System.out.println(data);
 		int amount=Integer.parseInt(data.get("amount").toString());
 		RazorpayClient razorpayClient = new RazorpayClient("rzp_test_57H5LdGcUCbfNi", "1YAHwxJD9blFaaLBAr0h9az7");
 		JSONObject options = new JSONObject();
@@ -64,7 +65,20 @@ public class UserController {
 		options.put("currency", "INR");
 		options.put("receipt", "txn_123456");
 		Order order = razorpayClient.orders.create(options);
-		System.out.println(order);
+//		System.out.println(order);
 		return order.toString();
+	}
+	
+	@PostMapping(value = "saveRecord")
+	public String saveRecord(@RequestBody OrderDetails orderDetails) {
+//		System.out.println(orderDetails);
+		return userservice.saveOrder(orderDetails);
+	}
+	
+	@PostMapping(value = "deleteAllCartItem")
+	public String deleteAllCartItem(@RequestBody ShoppingCart cart) {
+		System.out.println(cart);
+		return this.userservice.deleteCartItemFromCart(cart);
+//		return null;
 	}
 }

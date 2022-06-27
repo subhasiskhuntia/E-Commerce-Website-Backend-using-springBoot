@@ -61,7 +61,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 				"/api/user/addToCart",
 				"/api/user/updateCart",
 				"/api/user/deleteCartItem",
-				"/api/user/buyProduct"
+				"/api/user/buyProduct",
+				"/api/user/saveRecord",
+				"/api/user/deleteAllCartItem"
 				).hasAnyRole("USER","ADMIN")
 		.antMatchers("/authenticate",
 					"/register",

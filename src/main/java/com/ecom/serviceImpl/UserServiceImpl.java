@@ -1,5 +1,7 @@
 package com.ecom.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecom.dao.CartDao;
 import com.ecom.dao.CartItemDao;
+import com.ecom.dao.OrderItemDao;
 import com.ecom.dao.UserDAO;
 import com.ecom.entity.CartItem;
+import com.ecom.entity.OrderDetails;
 import com.ecom.entity.ShoppingCart;
 import com.ecom.entity.User;
 
@@ -21,6 +25,8 @@ public class UserServiceImpl {
 	CartItemDao cartitemdao;
 	@Autowired
 	CartDao cartdao;
+	@Autowired
+	OrderItemDao orderItemdao;
 
 	public String signUp(User user) {
 		if (userdao.existByUsername(user.getUsername()) != null) {
@@ -91,5 +97,21 @@ public class UserServiceImpl {
 //			
 		}
 		return null;
+	}
+	public String saveOrder(OrderDetails orderDetails) {
+		User user=userdao.findByUsername(orderDetails.getUsername());
+		orderDetails.setOrder_user(user);
+		orderDetails.getOrderItem().forEach(a->a.setOrderDetails(orderDetails));
+		List<OrderDetails> orderDetailList=new ArrayList<>();
+		orderDetailList.add(orderDetails);
+		user.setOrderDetails(orderDetailList);
+//		user.getOrderDetails().get(0).getOrderItem().forEach(a->System.out.println(a.getProduct().getName()));
+		userdao.saveAndFlush(user);
+//		orderItemdao.saveAll(orderDetails.getOrderItem());
+		return "saved";
+	}
+	public String deleteCartItemFromCart(ShoppingCart cart) {
+		cartitemdao.deleteCartItem(cart);
+		return "Deleted";
 	}
 }
