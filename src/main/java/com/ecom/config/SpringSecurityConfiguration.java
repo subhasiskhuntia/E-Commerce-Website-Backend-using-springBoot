@@ -52,7 +52,18 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	public void configure(HttpSecurity http) throws Exception {
 		http.cors();
 		http.csrf().disable()
-		.authorizeRequests().antMatchers("/helloadmin").hasRole("ADMIN")
+		.authorizeRequests().antMatchers("/helloadmin",
+										"/products/storeProduct",
+										"/api/category/saveCategory",
+										"api/brand/saveBrand",
+										"api/banner/setBanner",
+										"/api/category/updateCategory",
+										"/api/brand/updateBrand",
+										"/api/brand/deleteBrand/{id}",
+										"/api/category/deleteCategory/{id}",
+										"/api/banner/deleteBanner/{id}",
+										"/products/updateProduct"
+										).hasRole("ADMIN")
 		.antMatchers(
 				HttpMethod.OPTIONS,
 				"/hellouser",
@@ -63,11 +74,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 				"/api/user/deleteCartItem",
 				"/api/user/buyProduct",
 				"/api/user/saveRecord",
-				"/api/user/deleteAllCartItem"
+				"/api/user/deleteAllCartItem",
+				"api/user/getOrderDetails"
 				).hasAnyRole("USER","ADMIN")
 		.antMatchers("/authenticate",
 					"/register",
 					"/refreshtoken",
+					"/api/category/loadDistinctCategory",
+					"/api/brand/loadDistinctBrand",
 					"/api/banner/showBanner",
 					"/products/storeProduct",
 					"/products/getFilterdProduct",
@@ -80,7 +94,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 					"/api/brand/showBrand",
 					"/api/category/getDistinctCategory",
 					"/api/brand/getDistinctBrand",
-					"/api/gender/products/{id}"
+					"/api/gender/products/{id}",
+					"/products/getAllProducts"
 					).permitAll().anyRequest().authenticated()
 		.and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
 		and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).

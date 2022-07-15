@@ -1,5 +1,6 @@
 package com.ecom.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -80,5 +81,10 @@ public class UserController {
 		System.out.println(cart);
 		return this.userservice.deleteCartItemFromCart(cart);
 //		return null;
+	}
+	@PostMapping(value = "/getOrderDetails")
+	public List<OrderDetails> getAllOrderDetails(@RequestBody Map<String, String> usernameMap){
+		String username=usernameMap.get("username");
+		return this.userservice.getAllOrderDetails(username);
 	}
 }

@@ -37,7 +37,7 @@ public class Product {
 	private String sku;
 	private String color;
 //	@JsonIgnore
-	@OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@OneToOne(cascade = CascadeType.ALL)
 	private Product_Images images;
 	@JsonIgnore
 	@CreationTimestamp
@@ -46,10 +46,10 @@ public class Product {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 //	@JsonIgnore
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToOne(cascade = CascadeType.ALL)
 	private ProductForGender gender;
 	@JsonIgnore
-	@OneToMany(mappedBy = "product",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
 	private List<ProductReviews> reviews=new ArrayList<>();
 //	@JsonIgnore
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -61,7 +61,7 @@ public class Product {
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private ProductBrand brand;
 //	@JsonIgnore
-	@OneToMany(mappedBy = "sizeQuantityAndPrice",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@OneToMany(mappedBy = "sizeQuantityAndPrice",cascade = CascadeType.ALL)
 	private List<ProductSizeQuantityAndPrice> sizeAndQuantity;
 //	@Override
 //	public String toString() {

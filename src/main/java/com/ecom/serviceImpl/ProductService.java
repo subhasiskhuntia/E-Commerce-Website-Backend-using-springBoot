@@ -33,9 +33,9 @@ public class ProductService {
 	@Autowired
 	ProductGenderServiceImpl genderServiceImpl;
 
-//	public List<Product> findAllProduct(){
-//		return productRepository.findAll();
-//	}
+		public List<Product> findAllProduct(){
+			return productRepository.findAll();
+		}
 	public String storeProduct(Product product) {
 		product.getSizeAndQuantity().forEach(quantity -> {
 			quantity.setSizeQuantityAndPrice(product);
@@ -74,32 +74,34 @@ public class ProductService {
 	public List<Product> getFilteredProductAsc(String item,String[] brand,String[] category,String[] color,float maxPrice,float MinPrice,String[] gender){
 		return productRepository.getFilteredProductInAsc(item, brand, category, color, maxPrice, MinPrice,gender);
 	}
-//	public String updateProduct(Product product) {
-//		Optional<Product> op=productRepository.findById((int) product.getId());
-////		System.out.println(op.get());
-//		if(op.isPresent()) {
-//			Product p=op.get();
-//			p.setPrice(product.getPrice());
-//			productRepository.saveAndFlush(p);
-//			return "Product Updated Successfully";
-//		}
-//		return "Product not present";
-//	}
-//	public String deleteProduct(int pid) {
-//		Optional<Product> op=productRepository.findById(pid);
-//		if(op.isPresent()) {
-//			Product p=op.get();
-//			productRepository.delete(p);
-//			return "Product deleted successfully";
-//		}
-//		return "Product didn't exist";
-//		
-//	}
+	public String updateProduct(Product product) {
+		Optional<Product> op=productRepository.findById(product.getId());
+//		System.out.println(op.get());
+		if(op.isPresent()) {
+			Product p=op.get();
+			p.getSizeAndQuantity().get(0).setPrice(product.getSizeAndQuantity().get(0).getPrice());
+			p.getSizeAndQuantity().get(0).setQuantity(product.getSizeAndQuantity().get(0).getQuantity());
+			p.getSizeAndQuantity().get(0).setSize(product.getSizeAndQuantity().get(0).getSize());
+			productRepository.saveAndFlush(p);
+			return "Product Updated Successfully";
+		}
+		return "Product not present";
+	}
+	public String deleteProduct(long pid) {
+		Optional<Product> op=productRepository.findById(pid);
+		if(op.isPresent()) {
+			Product p=op.get();
+			productRepository.delete(p);
+			return "Product deleted successfully";
+		}
+		return "Product didn't exist";
+		
+	}
 	public Product findProductById(long id) {
 		Optional<Product> op=productRepository.findById(id);
 		if(op.isPresent()) {
 			Product p=op.get();
-			productRepository.delete(p);
+//			productRepository.delete(p);
 			return p;
 		}
 		return null;

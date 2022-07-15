@@ -32,7 +32,7 @@ import com.ecom.serviceImpl.ProductDiscountServiceImpl;
 import com.ecom.serviceImpl.ProductService;
 
 @SpringBootApplication
-public class ECommerceWebsiteApplication implements CommandLineRunner{
+public class ECommerceWebsiteApplication implements CommandLineRunner {
 	@Autowired
 	ProductCategoryServiceImpl categoryServiceImpl;
 	@Autowired
@@ -47,10 +47,12 @@ public class ECommerceWebsiteApplication implements CommandLineRunner{
 	ProductBrandRepo brandrepo;
 	@Autowired
 	ProductService productService;
+
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ECommerceWebsiteApplication.class, args);
 		System.out.println("running ");
@@ -83,7 +85,9 @@ public class ECommerceWebsiteApplication implements CommandLineRunner{
 //		System.out.println(productrepo.getDistinct());
 //		productrepo.getFilteredProduct("%%",new String[]{"H&M"},new String[]{"Shirt","T-Shirt"}, new String[] {"RED","WHITE"},2000,500,new String[] {"man","woman","baby","kid"},"desc").forEach(a->System.out.println(a));
 //		productrepo.pricedProduct().forEach(a->System.out.println(a));
+		categoryServiceImpl.loadDistinctCategory();
 	}
+
 //	@Bean
 //	public WebMvcConfigurer corsConfigurer() {
 //		return new WebMvcConfigurer() {
@@ -95,12 +99,12 @@ public class ECommerceWebsiteApplication implements CommandLineRunner{
 //	}
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
-	    return new WebMvcConfigurerAdapter() {
-	        @Override
-	        public void addCorsMappings(CorsRegistry registry) {
-	            registry.addMapping("/**").allowedOrigins("http://localhost:4200");
-	        }
-	    };
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+			}
+		};
 	}
 
 }

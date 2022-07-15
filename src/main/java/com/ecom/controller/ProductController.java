@@ -27,11 +27,11 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 
-//	@GetMapping(value = "getAllProducts")
-//	public List<Product> getAllProducts() {
-//		return productService.findAllProduct();
-//	}
-//
+	@GetMapping(value = "getAllProducts")
+	public List<Product> getAllProducts() {
+		return productService.findAllProduct();
+	}
+
 	@PostMapping(value = "storeProduct")
 	public String storeProduct(@RequestBody Product product) {
 		System.out.println("inside store controller");
@@ -58,18 +58,18 @@ public class ProductController {
 		}
 		return productService.getFilteredProduct("%"+variable.getSearchedItem()+"%", variable.getBrand(),variable.getCategory(),variable.getColor(),variable.getMaxPrice(),variable.getMinPrice(),variable.getGender());
 	}
-//
-//	@PutMapping(value = "updateProduct")
-//	public String updateProduct(@RequestBody Product product) {
-//		System.out.println(product);
-//		return productService.updateProduct(product);
-//	}
-//
-//	@DeleteMapping(value = "deleteProduct/{id}")
-//	public String deleteProduct(@PathVariable int id) {
-//		return productService.deleteProduct(id);
-//	}
-//
+
+	@PutMapping(value = "updateProduct")
+	public String updateProduct(@RequestBody Product product) {
+		System.out.println(product);
+		return productService.updateProduct(product);
+	}
+
+	@DeleteMapping(value = "deleteProduct/{id}")
+	public String deleteProduct(@PathVariable long id) {
+		return productService.deleteProduct(id);
+	}
+
 	@GetMapping(value = "findProductById/{id}")
 	public Product findProductById(@PathVariable long id) {
 		return productService.findProductById(id);

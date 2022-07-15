@@ -114,4 +114,13 @@ public class UserServiceImpl {
 		cartitemdao.deleteCartItem(cart);
 		return "Deleted";
 	}
+
+	public List<OrderDetails> getAllOrderDetails(String username) {
+		User user=userdao.findByUsername(username);
+		if(user!=null) {
+			System.out.println(user.getOrderDetails());
+			return user.getOrderDetails();
+		}
+		return null;
+	}
 }

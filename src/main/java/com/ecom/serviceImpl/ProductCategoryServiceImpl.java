@@ -16,11 +16,11 @@ public class ProductCategoryServiceImpl {
 
 	public String saveCategory(ProductCategory category) {
 		System.out.println(category.getId());
-		if (!categoryRepo.existsById(category.getId())) {
+		if (categoryRepo.findCategoryByType(category.getType())==null) {
 			categoryRepo.save(category);
 			return "saved successfully";
 		}
-		return "unable to save";
+		return "Category already present";
 	}
 	@Transactional
 	public List<ProductCategory> showCategory(){
@@ -40,5 +40,25 @@ public class ProductCategoryServiceImpl {
 	}
 	public String getDistinctCategory() {
 		return String.valueOf(categoryRepo.getDistinctCategoryType());
+	}
+	public List<String> loadDistinctCategory() {
+		List<String> categories= categoryRepo.getDistinctCategoryType();
+		return categories;
+	}
+	public String updateCategory(ProductCategory category) {
+		ProductCategory category2=categoryRepo.findById(category.getId()).orElse(null);
+		if(category!=null) {
+			category2.setUrl(category.getUrl());
+			this.categoryRepo.save(category2);
+			return "Category updated";
+		}
+		return null;
+	}
+	public String deleteCategory(long id) {
+		if(this.categoryRepo.existsById(id)) {
+			this.categoryRepo.deleteById(id);
+			return "Category deleted";
+		}
+		return "category not exist";
 	}
 }

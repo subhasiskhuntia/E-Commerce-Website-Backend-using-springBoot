@@ -15,4 +15,5 @@ public interface ProductCategoryRepo extends JpaRepository<ProductCategory, Long
 	public ProductCategory findCategoryByType(@RequestParam("type") String type);
 	@Query("select cat.type from ProductCategory cat order by cat.type")
 	public List<String> getDistinctCategoryType();
+	
 }
