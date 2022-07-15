@@ -62,7 +62,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 										"/api/brand/deleteBrand/{id}",
 										"/api/category/deleteCategory/{id}",
 										"/api/banner/deleteBanner/{id}",
-										"/products/updateProduct"
+										"/products/updateProduct",
+										"/api/admin/salesInCategory"
 										).hasRole("ADMIN")
 		.antMatchers(
 				HttpMethod.OPTIONS,
@@ -95,7 +96,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 					"/api/category/getDistinctCategory",
 					"/api/brand/getDistinctBrand",
 					"/api/gender/products/{id}",
-					"/products/getAllProducts"
+					"/products/getAllProducts",
+					"/api/user/getUserDetails",
+					"/api/user/changeUserDetails",
+					"/api/user/changePassword"
 					).permitAll().anyRequest().authenticated()
 		.and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).
 		and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).

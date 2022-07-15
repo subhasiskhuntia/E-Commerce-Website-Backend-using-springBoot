@@ -1,5 +1,8 @@
 package com.ecom.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +17,7 @@ import com.ecom.entity.Admin;
 import com.ecom.service.AdminService;
 import com.ecom.serviceImpl.AdminServiceImpl;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/admin")
 public class AdminController {
@@ -33,5 +37,13 @@ public class AdminController {
 	public String login(@RequestBody Login login) {
 		System.out.println("in the login");
 		return adminService.login(login.getUsername(),login.getPassword());
+	}
+	@GetMapping(value = "salesInCategory")
+	public List<Map<String, Object>> getSalesInCategory(){
+		return this.adminService.getSalesInCategory();
+	}
+	@GetMapping(value = "salesInBrand")
+	public List<Map<String, Object>> getSalesInBrand(){
+		return this.adminService.getSalesInBrand();
 	}
 }

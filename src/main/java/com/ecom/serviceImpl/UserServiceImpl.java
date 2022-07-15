@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,10 +77,11 @@ public class UserServiceImpl {
 	public ShoppingCart updateCart(ShoppingCart cart) {
 //		System.out.println("update cart");
 //		System.out.println(cart);
-		Optional<ShoppingCart> cart2=cartdao.findById(cart.getId());
-		if (cart2.isPresent()) {
-			cart.getCartItems().forEach(theCart->theCart.setBelongsToThisCart(cart));
-			cartdao.saveAndFlush(cart);
+		ShoppingCart cart2=cartdao.findById(cart.getId()).orElse(null);
+		if (cart2!=null) {
+			cart.getCartItems().forEach(theCart->theCart.setBelongsToThisCart(cart2));
+			cart2.setCartItems(cart.getCartItems());
+			cartdao.saveAndFlush(cart2);
 			return cart;
 		}
 		return null;
@@ -122,5 +124,45 @@ public class UserServiceImpl {
 			return user.getOrderDetails();
 		}
 		return null;
+	}
+
+	public User getUserDetails(String username) {
+		return userdao.findByUsername(username);
+	}
+
+	public String changeUserDetails(User user) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		User user2=userdao.findByUsername(user.getUsername());
+		if(user2==null) {
+			return "Invalid username";
+		}
+		if(passwordEncoder.matches(user.getPassword(), user2.getPassword())) {
+			user2.setAddress(user.getAddress());
+			user2.setPhoneNumber(user.getAddress());
+			user2.setFirst_name(user.getFirst_name());
+			user2.setLast_name(user.getLast_name());
+			userdao.save(user2);
+			return "User details changed";
+		}
+		else {
+			return "Incorrect password";
+		}
+	}
+
+	public String changePassword(String username, String oldPassword, String newPassword) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		User user2=userdao.findByUsername(username);
+		if(user2==null) {
+			return "Invalid username";
+		}
+		if(passwordEncoder.matches(oldPassword, user2.getPassword())) {
+			user2.setPassword(passwordEncoder.encode(newPassword));
+			userdao.save(user2);
+			return "Password changed";
+		}
+		else {
+			return "Incorrect password";
+		}
+	
 	}
 }

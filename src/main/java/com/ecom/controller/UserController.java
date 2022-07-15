@@ -87,4 +87,20 @@ public class UserController {
 		String username=usernameMap.get("username");
 		return this.userservice.getAllOrderDetails(username);
 	}
+	@PostMapping(value = "getUserDetails")
+	public User getUserDetails(@RequestBody Map<String, Object> userNameMap) {
+		String username=(String) userNameMap.get("username");
+		return this.userservice.getUserDetails(username);
+	}
+	@PostMapping(value = "changeUserDetails")
+	public String changeUserDetails(@RequestBody User user) {
+		return this.userservice.changeUserDetails(user);
+	}
+	@PostMapping(value = "changePassword")
+	public String changePassword(@RequestBody Map<String, String> usernameAndPasswordsMap ) {
+		String username=usernameAndPasswordsMap.get("username");
+		String oldPassword=usernameAndPasswordsMap.get("oldPassword");
+		String newPassword=usernameAndPasswordsMap.get("newPassword");
+		return this.userservice.changePassword(username,oldPassword,newPassword);
+	}
 }
