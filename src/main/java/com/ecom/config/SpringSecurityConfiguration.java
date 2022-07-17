@@ -63,7 +63,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter{
 										"/api/category/deleteCategory/{id}",
 										"/api/banner/deleteBanner/{id}",
 										"/products/updateProduct",
-										"/api/admin/salesInCategory"
+										"/api/admin/salesInCategory",
+										"/api/admin/salesInBrand"
 										).hasRole("ADMIN")
 		.antMatchers(
 				HttpMethod.OPTIONS,

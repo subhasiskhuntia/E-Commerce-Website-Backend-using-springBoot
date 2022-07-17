@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ecom.dao.CartDao;
 import com.ecom.dao.CartItemDao;
 import com.ecom.dao.OrderItemDao;
+import com.ecom.dao.ProductRepository;
 import com.ecom.dao.UserDAO;
 import com.ecom.entity.CartItem;
 import com.ecom.entity.OrderDetails;
+import com.ecom.entity.Product;
 import com.ecom.entity.ShoppingCart;
 import com.ecom.entity.User;
 
@@ -28,6 +30,8 @@ public class UserServiceImpl {
 	CartDao cartdao;
 	@Autowired
 	OrderItemDao orderItemdao;
+	@Autowired
+	ProductRepository productDao;
 
 	public String signUp(User user) {
 		if (userdao.existByUsername(user.getUsername()) != null) {
@@ -107,6 +111,17 @@ public class UserServiceImpl {
 		List<OrderDetails> orderDetailList=new ArrayList<>();
 		orderDetailList.add(orderDetails);
 		user.setOrderDetails(orderDetailList);
+		orderDetails.getOrderItem().forEach(order->{
+			Product product=productDao.findById(order.getProduct().getId()).orElse(null);
+			if(product.getSizeAndQuantity().get(0).getQuantity()<=order.getQuantity()) {
+				order.setQuantity(product.getSizeAndQuantity().get(0).getQuantity());
+				product.getSizeAndQuantity().get(0).setQuantity(0);				
+			}
+			else {
+				product.getSizeAndQuantity().get(0).setQuantity(order.getProduct().getSizeAndQuantity().get(0).getQuantity()-order.getQuantity());
+			}
+			productDao.saveAndFlush(product);
+		});
 //		user.getOrderDetails().get(0).getOrderItem().forEach(a->System.out.println(a.getProduct().getName()));
 		userdao.saveAndFlush(user);
 //		orderItemdao.saveAll(orderDetails.getOrderItem());
@@ -138,7 +153,7 @@ public class UserServiceImpl {
 		}
 		if(passwordEncoder.matches(user.getPassword(), user2.getPassword())) {
 			user2.setAddress(user.getAddress());
-			user2.setPhoneNumber(user.getAddress());
+			user2.setPhoneNumber(user.getPhoneNumber());
 			user2.setFirst_name(user.getFirst_name());
 			user2.setLast_name(user.getLast_name());
 			userdao.save(user2);
