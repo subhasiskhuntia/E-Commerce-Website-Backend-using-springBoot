@@ -48,7 +48,7 @@ public class OrderDetails {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 	
-	@OneToMany(mappedBy = "orderDetails", fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@OneToMany(mappedBy = "orderDetails", cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<OrderItem> orderItem;
 	
 	@Transient

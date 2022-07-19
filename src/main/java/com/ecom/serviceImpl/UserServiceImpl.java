@@ -107,11 +107,13 @@ public class UserServiceImpl {
 	public String saveOrder(OrderDetails orderDetails) {
 		User user=userdao.findByUsername(orderDetails.getUsername());
 		orderDetails.setOrder_user(user);
-		orderDetails.getOrderItem().forEach(a->a.setOrderDetails(orderDetails));
+//		orderDetails.getOrderItem().forEach(a->a.setOrderDetails(orderDetails));
 		List<OrderDetails> orderDetailList=new ArrayList<>();
 		orderDetailList.add(orderDetails);
 		user.setOrderDetails(orderDetailList);
+		List<Product> productList=new ArrayList<>();
 		orderDetails.getOrderItem().forEach(order->{
+			order.setOrderDetails(orderDetails);
 			Product product=productDao.findById(order.getProduct().getId()).orElse(null);
 			if(product.getSizeAndQuantity().get(0).getQuantity()<=order.getQuantity()) {
 				order.setQuantity(product.getSizeAndQuantity().get(0).getQuantity());
@@ -120,10 +122,11 @@ public class UserServiceImpl {
 			else {
 				product.getSizeAndQuantity().get(0).setQuantity(order.getProduct().getSizeAndQuantity().get(0).getQuantity()-order.getQuantity());
 			}
-			productDao.saveAndFlush(product);
+			productList.add(product);
 		});
 //		user.getOrderDetails().get(0).getOrderItem().forEach(a->System.out.println(a.getProduct().getName()));
 		userdao.saveAndFlush(user);
+		productDao.saveAllAndFlush(productList);
 //		orderItemdao.saveAll(orderDetails.getOrderItem());
 		return "saved";
 	}

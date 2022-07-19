@@ -37,7 +37,7 @@ public class OrderItem {
 	private int quantity;
 	
 	@JsonIgnore
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToOne(cascade = CascadeType.ALL)
 	private OrderDetails orderDetails;
 	@ManyToOne
 	private Product product;

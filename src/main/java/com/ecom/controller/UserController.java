@@ -18,6 +18,7 @@ import com.ecom.entity.CartItem;
 import com.ecom.entity.OrderDetails;
 import com.ecom.entity.ShoppingCart;
 import com.ecom.entity.User;
+import com.ecom.serviceImpl.OtpServiceImpl;
 import com.ecom.serviceImpl.UserServiceImpl;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
@@ -29,6 +30,8 @@ import com.razorpay.RazorpayException;
 public class UserController {
 	@Autowired
 	UserServiceImpl userservice;
+	@Autowired
+	OtpServiceImpl otpService;
 	
 	@PostMapping(value = "addToCart")
 	private String addToCart(@RequestBody ShoppingCart cart) {
@@ -102,5 +105,11 @@ public class UserController {
 		String oldPassword=usernameAndPasswordsMap.get("oldPassword");
 		String newPassword=usernameAndPasswordsMap.get("newPassword");
 		return this.userservice.changePassword(username,oldPassword,newPassword);
+	}
+	@PostMapping(value = "checkOtp")
+	public String checkOtp(@RequestBody Map<String, String> userNameOtpMap) {
+		String username=userNameOtpMap.get("username");
+		String otp=userNameOtpMap.get("otp");
+		return otpService.checkOtp(username,otp);
 	}
 }

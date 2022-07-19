@@ -70,7 +70,7 @@ public class AuthenticationController {
 		String token = jwtUtil.generateToken(userdetails);
 		String userName=userdetails.getUsername();
 		User user=userdao.findByUsername(userName);
-		return ResponseEntity.ok(new AuthenticationResponse(token,userName,user.getFirst_name()));
+		return ResponseEntity.ok(new AuthenticationResponse(token,userName,user.getFirst_name(),user.getRole()));
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)

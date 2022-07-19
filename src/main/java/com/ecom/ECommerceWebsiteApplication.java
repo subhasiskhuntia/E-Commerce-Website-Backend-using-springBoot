@@ -1,6 +1,8 @@
 package com.ecom;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,6 +11,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.ecom.dao.OrderItemDao;
 import com.ecom.dao.ProductBrandRepo;
 import com.ecom.dao.ProductCategoryRepo;
 import com.ecom.dao.ProductRepository;
@@ -47,10 +52,16 @@ public class ECommerceWebsiteApplication implements CommandLineRunner {
 	ProductBrandRepo brandrepo;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	OrderItemDao orderItemRepo;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	@Bean
+	public JavaMailSender mailSender() {
+		return new JavaMailSenderImpl();
 	}
 
 	public static void main(String[] args) {
@@ -85,7 +96,13 @@ public class ECommerceWebsiteApplication implements CommandLineRunner {
 //		System.out.println(productrepo.getDistinct());
 //		productrepo.getFilteredProduct("%%",new String[]{"H&M"},new String[]{"Shirt","T-Shirt"}, new String[] {"RED","WHITE"},2000,500,new String[] {"man","woman","baby","kid"},"desc").forEach(a->System.out.println(a));
 //		productrepo.pricedProduct().forEach(a->System.out.println(a));
-		categoryServiceImpl.loadDistinctCategory();
+//		categoryServiceImpl.loadDistinctCategory();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate From = LocalDate.parse("2022-07-17", formatter);
+		LocalDate Till=LocalDate.parse("2022-07-19",formatter);
+		System.out.println( String.valueOf(orderItemRepo.getSalesData(From, Till).get(0).get("image")));
+		System.out.println( String.valueOf(orderItemRepo.getSalesData(From, Till).get(0).get("name")));
+		System.out.println( String.valueOf(orderItemRepo.getSalesData(From, Till).get(0).get("price")));
 	}
 
 //	@Bean
